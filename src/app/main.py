@@ -13,10 +13,10 @@ app = FastAPI()
 def read_root():
     return {
         "apiversion": "1",
-        "author": "Maua-Dev",
-        "color": "#8B0000",
-        "head": "tiger-king",
-        "tail": "hook",
+        "author": "Soller&Brancas",
+        "color": "#FFDE21",
+        "head": "ski",
+        "tail": "weight",
         "version": "1.0.0"
     }
 
