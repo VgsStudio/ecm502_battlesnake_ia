@@ -5,13 +5,13 @@ class Test_App:
         resp = read_root()
 
         assert resp == {
-            "apiversion": "1",
-            "author": "Maua-Dev",
-            "color": "#8B0000",
-            "head": "tiger-king",
-            "tail": "hook",
-            "version": "1.0.0"
-        }
+        "apiversion": "1",
+        "author": "Soller&Brancas",
+        "color": "#FFDE21",
+        "head": "ski",
+        "tail": "weight",
+        "version": "1.0.0"
+    }
         
     def test_start(self):
         resp = start()
