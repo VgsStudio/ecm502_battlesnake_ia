@@ -1,6 +1,8 @@
 import random
 from fastapi import FastAPI
 from mangum import Mangum
+from .entities.battlesnake import Battlesnake
+from .entities.board import Board
 
 app = FastAPI()
 
@@ -13,7 +15,7 @@ app = FastAPI()
 def read_root():
     return {
         "apiversion": "1",
-        "author": "Soller&Brancas",
+        "author": "SoBrRuMaSA",
         "color": "#FFDE21",
         "head": "ski",
         "tail": "weight",
@@ -27,11 +29,21 @@ def start():
 @app.post("/move")
 def move(request: dict):
     print(request)
-    i = random.randint(0, 3)
-    directions = ["up", "down", "left", "right"]
+
+    board = Board.from_json(request["board"])
+    me = Battlesnake.from_json(request["you"])
+
+    path = board.get_path_to_closest_food(me)
+    if path:
+        next_move = board.navigate_to(me.head, path[0])
+    else:
+        i = random.randint(0, 3)
+        directions = ["up", "down", "left", "right"]
+        next_move = directions[i]    
+
     response = {
-        "move": directions[i],
-        "shout": f"I'm moving {directions[i]}!"
+        "move": next_move,
+        "shout": f"I'm moving {next_move}!"
     }
     return response
 
