@@ -34,8 +34,9 @@ def move(request: dict):
     me = Battlesnake.from_json(request["you"])
 
     path = board.get_path_to_closest_food(me)
-    if path:
-        next_move = board.navigate_to(me.head, path[0])
+    if len(path) > 0:
+        
+        next_move = board.navigate_to(me.head, path[1])
     else:
         i = random.randint(0, 3)
         directions = ["up", "down", "left", "right"]
