@@ -13,7 +13,7 @@ app = FastAPI()
 def read_root():
     return {
         "apiversion": "1",
-        "author": "Soller&Brancas",
+        "author": "SoBrRuMaSA",
         "color": "#FFDE21",
         "head": "ski",
         "tail": "weight",
