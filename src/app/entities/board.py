@@ -1,5 +1,5 @@
 
-from typing import List
+from typing import List, Optional
 
 from ..entities.battlesnake import Battlesnake
 from ..entities.coordinate import Coordinate
@@ -110,7 +110,7 @@ class Board:
   def get_valid_neighbors(self, head: Coordinate) -> List[Coordinate]:
       neighbors = []
       for move in ["right", "down", "left", "up"]:
-          if not self.is_out_of_bounds(move, head) and not self.is_snake(move, head) and not self.is_hazard(move, head):
+          if self.can_move(move, head):
               new_coordinate = head.move_command(move)
               neighbors.append(new_coordinate)
       return neighbors
@@ -121,7 +121,17 @@ class Board:
           if snake.is_inside_snake(coordinate):
               return snake
       return False
-
+  
+  def get_closest_food(self, me: Battlesnake) -> Optional[Coordinate]:
+        closest_food = None
+        min_distance = float('inf')
+        for food in self.food:
+            distance = Coordinate.distance(me.head, food)
+            if distance < min_distance:
+                min_distance = distance
+                closest_food = food
+        return closest_food
+  
   def is_hazard(self, move: str, head: Coordinate):
       coordinate = head.move_command(move)
       for hazard in self.hazards:
@@ -129,39 +139,29 @@ class Board:
               return True
       return False
 
-  # def dodge_snake_body(self, me: Battlesnake, old_move: str):
-  #     if  self.can_move(old_move, me):
-  #         return old_move
+  def dodge_snake_body(self, me: Battlesnake, old_move: str):
+      if  self.can_move(old_move, me.head):
+          return old_move
 
-  #     for move in ["up", "down", "left", "right"]:
-  #         if self.can_move(move, me):
-  #             return move
-  #     return old_move
+      for move in ["up", "down", "left", "right"]:
+          if self.can_move(move, me.head):
+              return move
+      return old_move
+  
+  def can_move(self, move: str, coordinate: Coordinate) -> bool:
+        if self.is_out_of_bounds(move, coordinate) or self.is_snake(move, coordinate) or self.is_hazard(move, coordinate):
+            return False
+        return True
 
   def is_out_of_bounds(self, move: str, head: Coordinate):
       coordinate = head.move_command(move)
       if coordinate.x < 0 or coordinate.x >= self.width or coordinate.y < 0 or coordinate.y >= self.height:
           return True
       return False
-
-  # def is_near_snake_head(self, move: str, me: Battlesnake):
-  #     snake, move = self.get_near_snake_head(me, move)
-
-  #     if snake is not None:
-  #         return True
-  #     return False
-
-  # def get_near_snake_head(self, me: Battlesnake, move: str = None) -> Tuple[Optional[Battlesnake], Optional[str]]:
-  #     if move is not None:
-  #         coordinate = me.head.move_command(move)
-  #         for snake in self.snakes:
-  #             if snake.is_near_head(coordinate) and snake.snake_id != me.snake_id:
-  #                 return snake, move
-  #         return None, None
-
-  #     for move in ["up", "down", "left", "right"]:
-  #         coordinate = me.head.move_command(move)
-  #         for snake in self.snakes:
-  #             if snake.is_near_head(coordinate) and snake.snake_id != me.snake_id:
-  #                 return snake, move
-  #     return None, None
+  
+  def safe_random_move(self, me: Battlesnake) -> str:
+        for move in ["up", "down", "left", "right"]:
+            if self.can_move(move, me.head):
+                return move
+        return "up"  # Default move if no safe moves are available
+  
