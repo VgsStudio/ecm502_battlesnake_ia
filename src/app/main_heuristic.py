@@ -36,10 +36,10 @@ def move(request: dict):
     closest_food = board.get_closest_food(me)
 
     if closest_food:
-        move = board.navigate_to(me.head, closest_food)
-        move = board.dodge_snake_body(me, move)
+        next_move = board.navigate_to(me.head, closest_food)
+        next_move = board.dodge_snake_body(me, move)
     else:
-        move = board.safe_random_move(me)
+        next_move = board.safe_random_move(me)
 
 
     response = {
