@@ -35,12 +35,9 @@ def move(request: dict):
 
     path = board.get_path_to_closest_food(me)
     if len(path) > 0:
-        
         next_move = board.navigate_to(me.head, path[1])
     else:
-        i = random.randint(0, 3)
-        directions = ["up", "down", "left", "right"]
-        next_move = directions[i]    
+        next_move = board.safe_random_move(me)
 
     response = {
         "move": next_move,
