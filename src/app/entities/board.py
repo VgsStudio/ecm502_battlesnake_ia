@@ -168,5 +168,6 @@ class Board:
   def is_near_snake(self, coordinate: Coordinate, me: Battlesnake) -> bool:
         for snake in self.snakes:
             if Coordinate.distance(snake.head, coordinate) <= 1 and snake.snake_id != me.snake_id:
-                return True
+                if snake.length > me.length:
+                    return True
         return False  
