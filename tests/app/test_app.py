@@ -1,4 +1,4 @@
-from src.app.main import read_root, start, move, end
+from src.app.main_astar import read_root, start, move, end
 
 class Test_App:
        
