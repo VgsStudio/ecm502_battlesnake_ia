@@ -22,7 +22,7 @@ class IacStack(Stack):
         self.project_name = os.environ.get("PROJECT_NAME")
         self.aws_account_id = os.environ.get("AWS_ACCOUNT_ID")
 
-        self.algorithms = ['star', 'heuristic']
+        self.algorithms = ['astar', 'heuristic']
 
         for algorithm in self.algorithms:
             lambda_fn = _lambda.Function(
