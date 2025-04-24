@@ -149,7 +149,7 @@ class Board:
       return old_move
   
   def can_move(self, move: str, coordinate: Coordinate) -> bool:
-        if self.is_out_of_bounds(move, coordinate) or self.is_snake(move, coordinate) or self.is_hazard(move, coordinate) or self.is_near_snake(coordinate.move_command(move)):
+        if self.is_out_of_bounds(move, coordinate) or self.is_snake(move, coordinate) or self.is_hazard(move, coordinate):
             return False
         return True
 
@@ -161,12 +161,12 @@ class Board:
   
   def safe_random_move(self, me: Battlesnake) -> str:
         for move in ["up", "down", "left", "right"]:
-            if self.can_move(move, me.head):
+            if self.can_move(move, me.head) and not self.is_near_snake(me.head.move_command(move), me):
                 return move
         return "up"  # Default move if no safe moves are available
   
-  def is_near_snake(self, coordinate: Coordinate) -> bool:
+  def is_near_snake(self, coordinate: Coordinate, me: Battlesnake) -> bool:
         for snake in self.snakes:
-            if Coordinate.distance(snake.head, coordinate) <= 1:
+            if Coordinate.distance(snake.head, coordinate) <= 1 and snake.snake_id != me.snake_id:
                 return True
         return False  
