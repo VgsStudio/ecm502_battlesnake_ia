@@ -16,7 +16,7 @@ def read_root():
     return {
         "apiversion": "1",
         "author": "SoBrRuMaSA",
-        "color": "#FFDE21",
+        "color": "#FFC0CB",
         "head": "ski",
         "tail": "weight",
         "version": "1.0.0"
