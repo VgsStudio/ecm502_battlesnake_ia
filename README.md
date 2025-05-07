@@ -1,20 +1,36 @@
-# battlesnake_fastapi_template 🐍
+# battlesnake com AStar  🐍
 
-This is a [Battlesnake](http://play.battlesnake.com) template written in Python using the [FastAPI](https://fastapi.tiangolo.com/) framework and deployed in AWS Lambda using [Mangum](https://mangum.io).
+Este trabalho realiza a implementação de uma inteligência artificial para o jogo [Battlesnake](http://play.battlesnake.com)  utilizando o algoritmo A*. O objetivo é criar uma estratégia eficiente para movimentar a cobra no tabuleiro, coletando comida e evitando colisões com outras cobras, bordas e perigos.
 
-## Introduction and Objectives ⁉
-The main purpose of this project is to create a template for Battlesnake using FastAPI and Mangum. The biggest challenge is to understand how an API works and how to deploy it in AWS Lambda.
+## Integrantes
+- Enzo Yuji Sakamoto **21.00210-0**
+- João Vitor Choueri Branco **21.01075-7**
+- Pedro Henrique de Sousa Matumoto - **21.00784-5**
+- Rafael Rubio Carnes - **20.00611-0**
+- Vitor Guirão Soller - **21.01444-2**
 
-![Example](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/58080c12-6d91-4366-b4e0-f7cd9f20f98d)
 
-## How to use 🤔
-First of all, you need to create a repo using issues from [Devmaua setup](https://github.com/Maua-Dev/devmaua_setup/), set the **project_name** as "**battlesnake_{your name}**" and project template as **battlesnake_fastapi_template** and make sure it's **public** . Hit create issue and wait for the setup to finish.
+## O que é o algoritmo A*?
+A* é um algoritmo de busca de caminho que encontra o caminho mais curto entre dois pontos em um grafo. Ele é amplamente utilizado em jogos e aplicações de inteligência artificial para encontrar rotas eficientes. O algoritmo combina a busca em largura com uma heurística que estima o custo restante para chegar ao destino, permitindo que ele explore os caminhos mais promissores primeiro.
 
-After that you need to clone your new repo, create a virtual environment and install the requirements.
+## O que é o Battlesnake?
+Segundo o site oficial: "Battlesnake é um jogo de programação competitivo onde seu código é o controle".
 
-## Installation 👩‍💻
+![FastApi AWS drawio](https://miro.medium.com/v2/resize:fit:1400/1*l0IkrbNLnkCB1VzDq2Qy7A.gif)
 
-### Create virtual ambient in python (only first time)
+Cada jogador controla uma cobra que deve se mover pelo tabuleiro, coletando comida e evitando colisões com outras cobras e com as bordas do tabuleiro. O objetivo é sobreviver o maior tempo possível. Cada cobra é controlada através de uma API. Nós conhecemos esse evento através do Campeonato Battlesnake organizado anualmente pela Dev. Community Mauá. Eles desenvolveram um template que utilizamos de base para nosso projeto. Todos estão convidados a utilizar o template para desenvolver suas cobras e participar do campeonato.
+
+## O que exatamente fizemos?
+Neste projeto, fizemos a nossa própria interpretação da API do jogo, utilizando o algoritmo A* para encontrar o caminho mais curto até a comida. O código é dividido em duas partes principais: a implementação do algoritmo A* e a lógica do Battlesnake.
+
+O notebook com a implementação, demonstração e explicação do que foi feito pode ser encontrada [aqui](https://github.com/VgsStudio/ecm502_battlesnake_ia/tree/dev/notebook)
+
+## Como rodar 🤔
+Crie um ambiente virtual e instale os requisitos
+
+## Instalação 👩‍💻
+
+### Criar ambiente virtual em python (somente na primeira vez)
 
 ###### Windows
 
@@ -24,7 +40,7 @@ After that you need to clone your new repo, create a virtual environment and ins
 
     virtualenv -p python3.9 venv
 
-#### Activate the venv
+#### Ativar a venv
 
 ###### Windows:
 
@@ -34,91 +50,13 @@ After that you need to clone your new repo, create a virtual environment and ins
 
     source venv/bin/activate
 
-#### Install the requirements
+#### Instalar os requirements
 
     pip install -r requirements-dev.txt
     pip install -r requirements.txt
-
-#### Run the tests
-
-    pytest
-
-#### Run the server local
-
-    uvicorn src.app.main:app
-
-## The Challenge 🐍
-The challenge is to create a Battlesnake using FastAPI and Mangum. The Battlesnake must be deployed in AWS Lambda.
-You can find the documentation for Battlesnake [here](https://docs.battlesnake.com/).
-
-### The files 📁
-The project is divided in 2 folders: **src** and **tests**.
-In src you can find the main.py file, which is the file that contains the FastAPI app and the routes. From there you can create your own routes and functions.
-The tests folder contains the tests for the project. You can create your own tests and run them using pytest.
-
-### The routes 🛣
-The routes are created in **main.py** file. You can create your own routes and functions. The routes are created using FastAPI decorators, you can find the documentation [here](https://fastapi.tiangolo.com/tutorial/first-steps/). Follow the rules from Battlesnake documentation to create your routes, they should look like [this](https://docs.battlesnake.com/api).
-
-### Atention 🚨
-In order to deploy your Battlesnake in AWS Lambda, you need to follow some rules:
-- The routes must be created using FastAPI decorators;
-- Don't use complete import, only relative ones. (eg: from .move_function import move);
-- ALWAYS test your code before pushing it to the repo. You can use pytest to test your code;
-- Don't forget to create your own tests;
-- Make sure there is a \_\_init\_\_.py file each directory, otherwise it's not a Python package;
-- Every file should be inside the app folder;
-
-### Deploy 🚀
-
-![FastApi AWS drawio](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/68026cf1-14de-4ca9-bd50-61688556b581)
+    cd notebook
+    pip install -r requirements.txt
+    
 
 
-After pushing your code to the repo, it will trigger an action to deploy your code in AWS Lambda. You can find the action in the **.github/workflows/aws_cd.yml** file.
-
-In the first time you push your code, the action will create a new stack in AWS CloudFormation. After that, every time you push your code, the action will update the stack with the new code.
-
-In the [Actions](https://github.com/Maua-Dev/battlesnake_fastapi_template/actions) tab you can see the status of the deploy, and if it was successful or not. If it was successful, you can find the URL of your API in the outputs tab of the action (in the final part of the "Deploy with CDK" step).
-
-
-![Action Tab](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/ca447b23-e4f3-423c-8ba2-3f7c891849c9)
-![CD](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/1340c269-f182-46eb-ae12-1d0bdd6059a2)
-![STEP](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/6129f465-a54d-46fc-b45a-c8b219a6823b)
-
-There you can find your API URL. You can use this URL to create your Battlesnake in the Battlesnake website. You can find the documentation [here](https://docs.battlesnake.com/guides/getting-started#step-2-create-a-battlesnake).
-You can also find an user and password to access the AWS Console and view the logs of the lambda function to debug it.
-
-![Outputs](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/e06bf1dd-18cc-4057-91ea-3ccd8074848f)
-
-
-To login in the AWS Console, click in the link name "console" on the output, and then click in "Sign in to a different account". There you need to put the account id and the user and password from the outputs tab. On your login you are required to change your password, DON'T FORGET THE NEW ONE. After that you can click in the link to lambda console, and click monitor to find the logs.
-
-![Lambda Console](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/8a584df8-9efe-432d-9083-6f3523b7f58c)
-![Cloudwatch Logs](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/94483cd1-ae3c-46c0-86df-d8fff0b0490e)
-
-After finishing your project, you can delete it from our backend using our CD.
-
-![AwsDestroy](https://github.com/Maua-Dev/battlesnake_fastapi_template/assets/81604963/68a73993-c55e-4ba8-8bf9-2becbc9decf6)
-
-## Useful tools 🛠
-
-- [Postman](https://www.postman.com/) - API development environment
-- [FastAPI](https://fastapi.tiangolo.com/) - Web framework
-- [Python3.9](https://docs.python.org/3.9/) - Python Documentation
-- [Battlesnake](https://docs.battlesnake.com/) - Battlesnake Documentation
-
-## Thanks 👢🍿
-
-We hope you like and enjoy it! Thanks!
-
-## Contributors 💰🤝💰
-
-This project was developed to use inside Dev. Community Mauá, but feel free to help!.
-
-- Bruno Vilardi - [Brvilardi](https://github.com/Brvilardi) 👷‍♂️
-- Hector Guerrini - [hectorguerrini](https://github.com/hectorguerrini) 🧙‍♂️
-- João Branco - [JoaoVitorBranco](https://github.com/JoaoVitorBranco) 😎
-- Luigi Trevisan - [LuigiTrevisan](https://github.com/LuigiTrevisan) 🔙 
-- Vitor Soller - [VgsStudio](https://github.com/VgsStudio) 🌞
-
-## Contact us 📞
-If you have any questions, feel free to contact us! You can find us in our [Discord](https://discord.gg/Yr2VPgAmcb) server.
+### Executar o notebook
